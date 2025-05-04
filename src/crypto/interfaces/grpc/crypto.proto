@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package crypto;
+
+service CryptoService {
+  rpc GetTopCryptos (TopCryptosRequest) returns (stream TopCryptosResponse);
+}
+
+message TopCryptosRequest {}
+
+message CryptoItem {
+  string symbol = 1;
+  string name = 3;
+  double current_price = 3;
+  double market_cap = 4;
+}
+
+message TopCryptosResponse {
+  repeated CryptoItem cryptos = 1;
+  string last_updated = 2;
+}

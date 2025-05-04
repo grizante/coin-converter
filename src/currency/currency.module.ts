@@ -11,7 +11,6 @@ import { ConvertCurrencyCacheRepository } from './infrasctructure/persistence/co
 import { ExchangeCacheRepository } from './infrasctructure/persistence/exchange-cache.repository';
 
 @Module({
-  imports: [],
   controllers: [CurrencyController, CurrencyGrpcController],
   providers: [
     ConvertCurrencyUseCase,

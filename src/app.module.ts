@@ -5,6 +5,7 @@ import { RedisModule } from '@nestjs-modules/ioredis';
 import config from './config/config';
 
 import { CurrencyModule } from './currency/currency.module';
+import { CryptoModule } from './crypto/crypto.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CurrencyModule } from './currency/currency.module';
       }),
       inject: [ConfigService],
     }),
+    CryptoModule,
   ],
   controllers: [],
   providers: [],
