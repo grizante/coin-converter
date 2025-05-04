@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package currency;
+
+service CurrencyService {
+  rpc GetRate (RateRequest) returns (RateResponse);
+}
+
+message RateRequest {
+  string from = 1;
+  string to = 2;
+}
+
+message RateResponse {
+  double rate = 1;
+}
