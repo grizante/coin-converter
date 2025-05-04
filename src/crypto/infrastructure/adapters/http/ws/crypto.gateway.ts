@@ -27,6 +27,9 @@ export class CryptoGateway {
     const stream$ = timer(0, 60_000).pipe(
       mergeMap(async () => {
         const cryptos = await this.getTopTenCryptosUseCase.execute();
+        if (!cryptos) {
+          return null;
+        }
         return {
           cryptos: cryptos.map((crypto) => ({
             symbol: crypto.symbol,

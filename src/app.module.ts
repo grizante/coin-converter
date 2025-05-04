@@ -23,7 +23,5 @@ import { CryptoModule } from './crypto/crypto.module';
     }),
     CryptoModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
