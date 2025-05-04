@@ -7,6 +7,7 @@ import { CurrencyLayerClient } from './infrasctructure/adapters/clients/currency
 import { ExchangeCacheRepository } from './infrasctructure/persistence/exchange-cache.repository';
 import { GetExchangeRateUseCase } from './application/use-cases/get-exchange-rate.usecase';
 import { IExchangeRateProviderToken } from './domain/ports/exchange.provider.interface';
+import { CurrencyGateway } from './infrasctructure/adapters/http/ws/currency.gateway';
 
 @Module({
   imports: [],
@@ -16,6 +17,8 @@ import { IExchangeRateProviderToken } from './domain/ports/exchange.provider.int
     GetExchangeRateUseCase,
     { provide: IExchangeRateProviderToken, useClass: CurrencyLayerClient },
     ExchangeCacheRepository,
+    CurrencyGateway,
   ],
+  exports: [GetExchangeRateUseCase, CurrencyGateway],
 })
 export class CurrencyModule {}
