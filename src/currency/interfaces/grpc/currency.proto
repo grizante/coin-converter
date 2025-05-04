@@ -4,6 +4,7 @@ package currency;
 
 service CurrencyService {
   rpc StreamRate (RateRequest) returns (stream RateResponse);
+  rpc StreamConvertCurrency (ConvertRequest) returns (stream ConvertResponse);
 }
 
 message RateRequest {
@@ -13,4 +14,16 @@ message RateRequest {
 
 message RateResponse {
   double rate = 1;
+  string timestamp = 2;
+}
+
+message ConvertRequest {
+  string from = 1;
+  string to = 2;
+  double amount = 3;
+}
+
+message ConvertResponse {
+  double amount = 1;
+  string timestamp = 2;
 }

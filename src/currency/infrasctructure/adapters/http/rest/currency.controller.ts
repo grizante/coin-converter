@@ -6,12 +6,18 @@ import {
   GetExchangeRateRequestBody,
   GetExchangeRateResponseBody,
 } from '../../../../interfaces/dto/controller/get-exchange-rate.dto';
+import { ConvertCurrencyUseCase } from '../../../../application/use-cases/convert-currency.usecase';
+import {
+  ConvertCurrencyRequestBody,
+  ConvertCurrencyResponse,
+} from '../../../../interfaces/dto/controller/convert-currency.dto';
 
 @Controller('currency')
 @ApiTags('Currency')
 export class CurrencyController {
   constructor(
     private readonly getExchangeRateUseCase: GetExchangeRateUseCase,
+    private readonly convertCurrencyUseCase: ConvertCurrencyUseCase,
   ) {}
 
   @Get('rate')
@@ -37,5 +43,30 @@ export class CurrencyController {
     const result = await this.getExchangeRateUseCase.execute(input);
 
     return GetExchangeRateResponseBody.fromGetExchangeRateUseCase(result);
+  }
+
+  @Get('convert')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    operationId: 'convertCurrency',
+    summary: 'Convert currency',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Convert currency',
+    type: GetExchangeRateResponseBody,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad Request',
+  })
+  async convertCurrency(
+    @Query() query: ConvertCurrencyRequestBody,
+  ): Promise<ConvertCurrencyResponse> {
+    const input = query.toConvertCurrencyInput();
+
+    const result = await this.convertCurrencyUseCase.execute(input);
+
+    return ConvertCurrencyResponse.fromConvertCurrencyUseCase(result);
   }
 }

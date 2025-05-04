@@ -1,10 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
+import { ConvertCurrencyInput } from '../service/convert-currency.dto';
 
-import { GetExchangeRateInput } from '../service/get-exchange-rate.dto';
-
-export class GetExchangeRateRequestBody {
+export class ConvertCurrencyRequestBody {
   @IsString()
   @Transform(({ value }: { value: string }) => value.toUpperCase())
   @ApiProperty({
@@ -23,25 +22,35 @@ export class GetExchangeRateRequestBody {
   })
   to: string;
 
-  toGetExchangeRateInput(): GetExchangeRateInput {
+  @IsNumber()
+  @Transform(({ value }: { value: number }) => Number(value))
+  @ApiProperty({
+    type: Number,
+    example: 100,
+    description: 'Amount',
+  })
+  amount: number;
+
+  toConvertCurrencyInput(): ConvertCurrencyInput {
     return {
       from: this.from,
       to: this.to,
+      amount: this.amount,
     };
   }
 }
 
-export class GetExchangeRateResponseBody {
+export class ConvertCurrencyResponse {
   @ApiProperty({
     type: Number,
     example: 100,
-    description: 'Rate',
+    description: 'Amount',
   })
-  rate: number;
+  amount: number;
 
-  static fromGetExchangeRateUseCase(rate: number): GetExchangeRateResponseBody {
+  static fromConvertCurrencyUseCase(amount: number): ConvertCurrencyResponse {
     return {
-      rate,
+      amount,
     };
   }
 }
