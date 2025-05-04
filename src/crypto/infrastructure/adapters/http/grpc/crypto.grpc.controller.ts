@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
-
-import { GetTopTenCryptosUseCase } from '../../../../application/use-cases/get-top-cryptos.usecase';
 import { GrpcMethod } from '@nestjs/microservices';
 import { mergeMap, Observable, timer } from 'rxjs';
+
+import { GetTopTenCryptosUseCase } from '../../../../application/use-cases/get-top-cryptos.usecase';
 
 @Controller()
 export class CryptoGrpcController {
