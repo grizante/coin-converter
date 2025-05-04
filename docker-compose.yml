@@ -15,6 +15,13 @@ services:
       - "3000:3000"
     depends_on:
       - redis
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
+    command: npm run start:prod
+
 
 volumes:
   redis_data:
