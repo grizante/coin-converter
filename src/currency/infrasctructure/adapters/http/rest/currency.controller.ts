@@ -1,16 +1,17 @@
 import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { GetExchangeRateUseCase } from '../../../../application/use-cases/get-exchange-rate.usecase';
-import {
-  GetExchangeRateRequestBody,
-  GetExchangeRateResponseBody,
-} from '../../../../interfaces/dto/controller/get-exchange-rate.dto';
 import { ConvertCurrencyUseCase } from '../../../../application/use-cases/convert-currency.usecase';
+import { GetExchangeRateUseCase } from '../../../../application/use-cases/get-exchange-rate.usecase';
 import {
   ConvertCurrencyRequestBody,
   ConvertCurrencyResponse,
 } from '../../../../interfaces/dto/controller/convert-currency.dto';
+import {
+  GetExchangeRateRequestBody,
+  GetExchangeRateResponseBody,
+} from '../../../../interfaces/dto/controller/get-exchange-rate.dto';
+import { ConvertCurrencyInput } from '../../../../interfaces/dto/service/convert-currency.dto';
 
 @Controller('currency')
 @ApiTags('Currency')
@@ -63,7 +64,13 @@ export class CurrencyController {
   async convertCurrency(
     @Query() query: ConvertCurrencyRequestBody,
   ): Promise<ConvertCurrencyResponse> {
-    const input = query.toConvertCurrencyInput();
+    const input: ConvertCurrencyInput = query.toConvertCurrencyInput
+      ? query.toConvertCurrencyInput()
+      : {
+          from: query.from,
+          to: query.to,
+          amount: Number(query.amount),
+        };
 
     const result = await this.convertCurrencyUseCase.execute(input);
 

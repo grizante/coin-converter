@@ -16,16 +16,21 @@ export class GetExchangeRateUseCase {
   ) {}
 
   async execute(input: GetExchangeRateInput): Promise<number> {
-    const cached = await this.exchangeCache.getRate(input.from, input.to);
+    let cached = await this.exchangeCache.getRate(input.from, input.to);
 
     if (cached) {
       return cached;
     }
 
     const { from, to } = input;
-    const rate = await this.exchangeProvider.getRate(from, to);
-    await this.exchangeCache.setRate(from, to, rate);
+    const result = await this.exchangeProvider.getRate(from, to);
 
-    return rate;
+    if (result.success) {
+      await this.exchangeCache.setRate(from, to, result.rate);
+    }
+
+    cached = await this.exchangeCache.getRate(from, to);
+
+    return cached ?? result.rate;
   }
 }

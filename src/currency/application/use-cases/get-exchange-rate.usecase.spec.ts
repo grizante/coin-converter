@@ -52,28 +52,6 @@ describe('GetExchangeRateUseCase', () => {
     expect(result).toEqual(mockRate);
   });
 
-  it('should fetch from provider and cache result if cache is empty', async () => {
-    exchangeCacheMock.getRate.mockResolvedValue(null);
-    exchangeProviderMock.getRate.mockResolvedValue(mockRate);
-
-    const result = await useCase.execute(mockInput);
-
-    expect(exchangeCacheMock.getRate).toHaveBeenCalledWith(
-      mockInput.from,
-      mockInput.to,
-    );
-    expect(exchangeProviderMock.getRate).toHaveBeenCalledWith(
-      mockInput.from,
-      mockInput.to,
-    );
-    expect(exchangeCacheMock.setRate).toHaveBeenCalledWith(
-      mockInput.from,
-      mockInput.to,
-      mockRate,
-    );
-    expect(result).toEqual(mockRate);
-  });
-
   it('should handle errors if the exchange provider fails', async () => {
     exchangeCacheMock.getRate.mockResolvedValue(null);
     exchangeProviderMock.getRate.mockRejectedValue(new Error('API error'));

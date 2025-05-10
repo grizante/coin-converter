@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import {
@@ -17,18 +17,20 @@ export class CurrencyLayerClient implements IExchangeRateProvider {
     this.endpoint = this.config.getOrThrow<string>('currencyLayer.endpoint');
   }
 
-  async getRate(from: string, to: string): Promise<number> {
+  async getRate(
+    from: string,
+    to: string,
+  ): Promise<{ rate: number; success: boolean }> {
     const response = await fetch(
       `${this.endpoint}/live?access_key=${this.accessKey}&from=${from}&to=${to}&format=1`,
     );
 
     const data = (await response.json()) as CurrencyLayerLiveResponse;
 
-    if (!data.success) {
-      throw new InternalServerErrorException('CurrencyLayer API error');
-    }
-
-    return data.quotes[`${from}${to}`];
+    return {
+      rate: data.quotes ? data.quotes[`${from}${to}`] : 0,
+      success: data.success,
+    };
   }
 
   async convertCurrency(
@@ -41,10 +43,6 @@ export class CurrencyLayerClient implements IExchangeRateProvider {
     );
 
     const data = (await response.json()) as CurrencyLayerConvertResponse;
-
-    if (!data.success) {
-      throw new InternalServerErrorException('CurrencyLayer API error');
-    }
 
     return data.result;
   }

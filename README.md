@@ -161,18 +161,43 @@ This keeps crypto data fresh for WebSocket and gRPC consumers.
 
 ## 🧪 Testing
 
-Uses `jest` for unit/integration tests. Coverage includes:
+Uses `jest` for unit, integration, and end-to-end (E2E) tests. Coverage includes:
 
-- Use Cases
-- Gateways
-- REST & gRPC Controllers
+- Use Cases  
+- Gateways (including WebSocket events like `getTopTenCryptos`)  
+- REST & gRPC Controllers  
 - External API Clients
 
-Run tests with:
+### Automated Tests
+
+Run all unit and integration tests with:
 
 ```bash
 npm run test
 ```
+
+### End-to-End (E2E) Tests
+
+#### 1. NestJS E2E Tests
+
+Uses the official Nest testing module to verify REST endpoint behavior in a real application context.
+
+Run:
+
+```bash
+npm run test:e2e
+```
+
+#### 2. WebSocket E2E Test (Manual)
+
+You can manually test the WebSocket gateway using a simple client script:
+
+```bash
+node test/ws/test-client.js
+```
+
+> This script simulates a real client connecting to the WebSocket server and listening for emitted events. Useful for manual verification and debugging of gateway behavior.
+
 
 ---
 

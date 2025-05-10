@@ -21,15 +21,20 @@ export class GetTopTenCryptosUseCase {
   ): Promise<CoinGeckoCoinsListWithMarketDataResponse[]> {
     const { currency } = input;
 
-    const cached = await this.cryptoCache.getTopCryptos(currency);
+    let cached = await this.cryptoCache.getTopCryptos(currency);
 
     if (cached) {
       return cached;
     }
 
     const cryptos = await this.cryptoProvider.getTopTenCryptos(currency);
-    await this.cryptoCache.cacheTopCryptos(cryptos, currency);
 
-    return cryptos;
+    if (cryptos) {
+      await this.cryptoCache.cacheTopCryptos(cryptos, currency);
+    }
+
+    cached = await this.cryptoCache.getTopCryptos(currency);
+
+    return cached ?? cryptos;
   }
 }

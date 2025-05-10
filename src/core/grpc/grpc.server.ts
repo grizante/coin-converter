@@ -9,8 +9,8 @@ export const grpcServerOptions: GrpcOptions = {
     url: '0.0.0.0:50051',
     package: ['currency', 'crypto'],
     protoPath: [
-      join(__dirname, '../../../currency/interfaces/grpc/currency.proto'),
-      join(__dirname, '../../../crypto/interfaces/grpc/crypto.proto'),
+      join(__dirname, '../../currency/interfaces/grpc/currency.proto'),
+      join(__dirname, '../../crypto/interfaces/grpc/crypto.proto'),
     ],
     loader: {
       keepCase: true,

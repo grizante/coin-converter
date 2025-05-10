@@ -62,7 +62,7 @@ describe('CurrencyLayerClient', () => {
 
     const rate = await client.getRate('USD', 'EUR');
 
-    expect(rate).toEqual(mockRate);
+    expect(rate.rate).toEqual(mockRate);
   });
 
   it('should throw InternalServerErrorException if API response is unsuccessful', async () => {

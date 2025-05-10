@@ -16,7 +16,7 @@ export class ConvertCurrencyUseCase {
   ) {}
 
   async execute(input: ConvertCurrencyInput): Promise<number> {
-    const cached = await this.convertCache.getConversion(input.from, input.to);
+    let cached = await this.convertCache.getConversion(input.from, input.to);
 
     if (cached) {
       return cached;
@@ -28,8 +28,13 @@ export class ConvertCurrencyUseCase {
       to,
       amount,
     );
-    await this.convertCache.setConversion(from, to, conversion);
 
-    return conversion;
+    if (conversion) {
+      await this.convertCache.setConversion(from, to, conversion);
+    }
+
+    cached = await this.convertCache.getConversion(from, to);
+
+    return cached ?? conversion;
   }
 }

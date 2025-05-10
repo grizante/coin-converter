@@ -12,7 +12,7 @@ message TopCryptosRequest {
 
 message CryptoItem {
   string symbol = 1;
-  string name = 3;
+  string name = 2;
   double current_price = 3;
   double market_cap = 4;
 }
