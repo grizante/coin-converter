@@ -41,7 +41,7 @@ describe('CryptoGrpcController', () => {
   });
 
   it('should stream formatted crypto data', (done) => {
-    const stream$ = controller.streamGetTopTenCryptos();
+    const stream$ = controller.streamGetTopTenCryptos({});
 
     stream$.pipe(take(1)).subscribe((data) => {
       expect(useCaseMock.execute).toHaveBeenCalled();

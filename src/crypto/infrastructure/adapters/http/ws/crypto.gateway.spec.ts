@@ -53,7 +53,7 @@ describe('CryptoGateway', () => {
   });
 
   it('should emit formatted crypto data and clean up on disconnect', async () => {
-    gateway.handleGetTopTenCryptosEvent(socketMock as Socket);
+    gateway.handleGetTopTenCryptosEvent({}, socketMock as Socket);
 
     await jest.runOnlyPendingTimersAsync();
 
@@ -68,6 +68,7 @@ describe('CryptoGateway', () => {
     const onCalls = (socketMock.on as jest.Mock).mock.calls;
     const disconnectHandler = onCalls.find(
       ([event]) => event === 'disconnect',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     )?.[1] as () => void;
 
     expect(typeof disconnectHandler).toBe('function');

@@ -4,12 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import config from './config/config';
 
-import { CurrencyModule } from './currency/currency.module';
 import { CryptoModule } from './crypto/crypto.module';
+import { CurrencyModule } from './currency/currency.module';
 
 @Module({
   imports: [
     CurrencyModule,
+    CryptoModule,
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     RedisModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
@@ -21,7 +22,6 @@ import { CryptoModule } from './crypto/crypto.module';
       }),
       inject: [ConfigService],
     }),
-    CryptoModule,
   ],
 })
 export class AppModule {}

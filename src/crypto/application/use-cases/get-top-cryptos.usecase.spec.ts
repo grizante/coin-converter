@@ -9,8 +9,20 @@ describe('GetTopTenCryptosUseCase', () => {
   let useCase: GetTopTenCryptosUseCase;
 
   const mockCryptoData: CoinGeckoCoinsListWithMarketDataResponse[] = [
-    { name: 'Bitcoin', symbol: 'btc', market_cap: 1, current_price: 1 },
-    { name: 'Ethereum', symbol: 'eth', market_cap: 2, current_price: 2 },
+    {
+      name: 'Ethereum',
+      symbol: 'eth',
+      market_cap: 2,
+      current_price: 2,
+      market_cap_rank: 1,
+    },
+    {
+      name: 'Bitcoin',
+      symbol: 'btc',
+      market_cap: 1,
+      current_price: 1,
+      market_cap_rank: 2,
+    },
   ];
 
   const cryptoProviderMock = {
@@ -41,7 +53,7 @@ describe('GetTopTenCryptosUseCase', () => {
   it('should return cached cryptos if available', async () => {
     cacheRepoMock.getTopCryptos.mockResolvedValue(mockCryptoData);
 
-    const result = await useCase.execute();
+    const result = await useCase.execute({});
 
     expect(cacheRepoMock.getTopCryptos).toHaveBeenCalled();
     expect(cryptoProviderMock.getTopTenCryptos).not.toHaveBeenCalled();
@@ -52,11 +64,14 @@ describe('GetTopTenCryptosUseCase', () => {
     cacheRepoMock.getTopCryptos.mockResolvedValue(null);
     cryptoProviderMock.getTopTenCryptos.mockResolvedValue(mockCryptoData);
 
-    const result = await useCase.execute();
+    const result = await useCase.execute({});
 
     expect(cacheRepoMock.getTopCryptos).toHaveBeenCalled();
     expect(cryptoProviderMock.getTopTenCryptos).toHaveBeenCalled();
-    expect(cacheRepoMock.cacheTopCryptos).toHaveBeenCalledWith(mockCryptoData);
+    expect(cacheRepoMock.cacheTopCryptos).toHaveBeenCalledWith(
+      mockCryptoData,
+      undefined,
+    );
     expect(result).toEqual(mockCryptoData);
   });
 });

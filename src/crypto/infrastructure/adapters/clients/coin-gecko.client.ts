@@ -14,16 +14,17 @@ export class CoinGeckoClient implements ICryptoProvider {
     this.endpoint = this.config.getOrThrow<string>('coinGecko.endpoint');
   }
 
-  async getTopTenCryptos(): Promise<
+  async getTopTenCryptos(currency: string = 'usd'): Promise<
     {
       symbol: string;
       name: string;
       current_price: number;
       market_cap: number;
+      market_cap_rank: number;
     }[]
   > {
     const response = await fetch(
-      `${this.endpoint}/coins/markets?order=market_cap_desc&vs_currency=usd&per_page=10&page=1&sparkline=false`,
+      `${this.endpoint}/coins/markets?order=market_cap_desc&vs_currency=${currency}&per_page=10&page=1&sparkline=false`,
       {
         headers: {
           accept: 'application/json',

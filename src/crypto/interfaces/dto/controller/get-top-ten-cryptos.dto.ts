@@ -1,6 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
 import { CoinGeckoCoinsListWithMarketDataResponse } from '../../../domain/models/coin-gecko.response';
+import { GetTopTenCryptosInput } from '../service/get-top-ten-cryptos.dto';
+
+export class GetTopTenCryptosRequestBody {
+  @ApiProperty({
+    type: String,
+    example: 'USD',
+  })
+  @IsString()
+  @IsOptional()
+  currency?: string;
+
+  toGetTopTenCryptosInput(): GetTopTenCryptosInput {
+    return {
+      currency: this.currency,
+    };
+  }
+}
 
 class GetTopTenCryptosCryptoItem {
   @ApiProperty({
@@ -26,6 +44,12 @@ class GetTopTenCryptosCryptoItem {
     example: 1,
   })
   market_cap: number;
+
+  @ApiProperty({
+    type: Number,
+    example: 1,
+  })
+  market_cap_rank: number;
 }
 
 export class GetTopTenCryptosResponseBody {
@@ -57,6 +81,7 @@ export class GetTopTenCryptosResponseBody {
         name: crypto.name,
         current_price: crypto.current_price,
         market_cap: crypto.market_cap,
+        market_cap_rank: crypto.market_cap_rank,
       })),
       last_updated: new Date().toISOString(),
     };

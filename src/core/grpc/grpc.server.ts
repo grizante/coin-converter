@@ -1,14 +1,17 @@
 import { PackageDefinition } from '@grpc/proto-loader';
 import { ReflectionService } from '@grpc/reflection';
-import { Transport, GrpcOptions } from '@nestjs/microservices';
+import { GrpcOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 
-export const currencyGrpcServerOptions: GrpcOptions = {
+export const grpcServerOptions: GrpcOptions = {
   transport: Transport.GRPC,
   options: {
     url: '0.0.0.0:50051',
-    package: 'currency',
-    protoPath: join(__dirname, '../../../../interfaces/grpc/currency.proto'),
+    package: ['currency', 'crypto'],
+    protoPath: [
+      join(__dirname, '../../../currency/interfaces/grpc/currency.proto'),
+      join(__dirname, '../../../crypto/interfaces/grpc/crypto.proto'),
+    ],
     loader: {
       keepCase: true,
       longs: String,

@@ -37,7 +37,6 @@ export class CurrencyGrpcController {
     return timer(0, 60_000).pipe(
       mergeMap(async () => {
         const amount = await this.convertCurrencyUseCase.execute(data);
-        console.log(amount);
         return {
           amount,
           timestamp: new Date().toISOString(),

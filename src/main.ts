@@ -1,13 +1,13 @@
 import { ValidationPipe } from '@nestjs/common';
+import { RequestHandler } from '@nestjs/common/interfaces';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Response } from 'express';
 import redoc from 'redoc-express';
 
-import { AppModule } from './app.module';
-import { RequestHandler } from '@nestjs/common/interfaces';
 import { MicroserviceOptions } from '@nestjs/microservices';
-import { currencyGrpcServerOptions } from './currency/infrasctructure/adapters/http/grpc/currency.grpc.server';
+import { AppModule } from './app.module';
+import { grpcServerOptions } from './core/grpc/grpc.server';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -42,11 +42,7 @@ async function bootstrap() {
   );
 
   const grpcMicroservice =
-    await NestFactory.createMicroservice<MicroserviceOptions>(
-      AppModule,
-      currencyGrpcServerOptions,
-    );
-
+    app.connectMicroservice<MicroserviceOptions>(grpcServerOptions);
   await grpcMicroservice.listen();
 
   await app.listen(process.env.PORT ?? 3000);

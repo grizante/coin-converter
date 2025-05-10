@@ -11,13 +11,13 @@ export class CryptoGrpcController {
   ) {}
 
   @GrpcMethod('CryptoService', 'StreamGetTopCryptos')
-  streamGetTopTenCryptos(): Observable<{
+  streamGetTopTenCryptos(data: { currency?: string }): Observable<{
     cryptos: any[];
     last_updated: string;
   }> {
     return timer(0, 60_000).pipe(
       mergeMap(async () => {
-        const cryptos = await this.getTopTenCryptosUseCase.execute();
+        const cryptos = await this.getTopTenCryptosUseCase.execute(data);
         return {
           cryptos: cryptos.map((crypto) => ({
             symbol: crypto.symbol,

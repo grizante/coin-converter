@@ -1,8 +1,11 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { GetTopTenCryptosUseCase } from '../../../../application/use-cases/get-top-cryptos.usecase';
-import { GetTopTenCryptosResponseBody } from '../../../../interfaces/dto/controller/get-top-ten-cryptos.dto';
+import {
+  GetTopTenCryptosRequestBody,
+  GetTopTenCryptosResponseBody,
+} from '../../../../interfaces/dto/controller/get-top-ten-cryptos.dto';
 
 @Controller('crypto')
 @ApiTags('Crypto')
@@ -22,8 +25,12 @@ export class CryptoController {
     description: 'Get top ten cryptos',
     type: GetTopTenCryptosResponseBody,
   })
-  async getTopTenCryptos(): Promise<GetTopTenCryptosResponseBody> {
-    const cryptos = await this.getTopTenCryptosUseCase.execute();
+  async getTopTenCryptos(
+    @Query() query: GetTopTenCryptosRequestBody,
+  ): Promise<GetTopTenCryptosResponseBody> {
+    const input = query.toGetTopTenCryptosInput();
+
+    const cryptos = await this.getTopTenCryptosUseCase.execute(input);
 
     return GetTopTenCryptosResponseBody.fromCoinGeckoCoinsListWithMarketDataResponse(
       cryptos,

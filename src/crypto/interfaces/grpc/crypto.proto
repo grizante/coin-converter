@@ -6,7 +6,9 @@ service CryptoService {
   rpc GetTopCryptos (TopCryptosRequest) returns (stream TopCryptosResponse);
 }
 
-message TopCryptosRequest {}
+message TopCryptosRequest {
+  optional string currency = 1; 
+}
 
 message CryptoItem {
   string symbol = 1;

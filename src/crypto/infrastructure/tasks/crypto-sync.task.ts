@@ -12,7 +12,6 @@ export class TasksService {
   constructor(
     @Inject(ICryptoProviderToken)
     private cryptoProvider: ICryptoProvider,
-
     private readonly cryptoCache: CryptoCacheRepository,
   ) {}
 

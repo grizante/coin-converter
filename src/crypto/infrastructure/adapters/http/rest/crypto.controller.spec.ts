@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CryptoController } from './crypto.controller';
+
 import { GetTopTenCryptosUseCase } from '../../../../application/use-cases/get-top-cryptos.usecase';
-import { GetTopTenCryptosResponseBody } from '../../../../interfaces/dto/controller/get-top-ten-cryptos.dto';
+import {
+  GetTopTenCryptosRequestBody,
+  GetTopTenCryptosResponseBody,
+} from '../../../../interfaces/dto/controller/get-top-ten-cryptos.dto';
+import { CryptoController } from './crypto.controller';
 
 describe('CryptoController', () => {
   let controller: CryptoController;
@@ -13,12 +17,14 @@ describe('CryptoController', () => {
       name: 'Bitcoin',
       current_price: 50000,
       market_cap: 1000000000,
+      market_cap_rank: 1,
     },
     {
       symbol: 'eth',
       name: 'Ethereum',
       current_price: 4000,
       market_cap: 500000000,
+      market_cap_rank: 2,
     },
   ];
 
@@ -56,7 +62,8 @@ describe('CryptoController', () => {
   });
 
   it('should return formatted crypto data', async () => {
-    const result = await controller.getTopTenCryptos();
+    const query = new GetTopTenCryptosRequestBody();
+    const result = await controller.getTopTenCryptos(query);
 
     expect(useCaseMock.execute).toHaveBeenCalledTimes(1);
     expect(result).toEqual(mockFormattedResponse);

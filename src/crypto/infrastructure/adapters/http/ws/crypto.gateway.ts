@@ -1,5 +1,6 @@
 import {
   ConnectedSocket,
+  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -23,10 +24,13 @@ export class CryptoGateway {
   ) {}
 
   @SubscribeMessage('getTopTenCryptos')
-  handleGetTopTenCryptosEvent(@ConnectedSocket() client: Socket) {
+  handleGetTopTenCryptosEvent(
+    @MessageBody() data: { currency?: string },
+    @ConnectedSocket() client: Socket,
+  ) {
     const stream$ = timer(0, 60_000).pipe(
       mergeMap(async () => {
-        const cryptos = await this.getTopTenCryptosUseCase.execute();
+        const cryptos = await this.getTopTenCryptosUseCase.execute(data);
         if (!cryptos) {
           return null;
         }
