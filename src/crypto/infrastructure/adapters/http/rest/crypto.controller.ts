@@ -6,6 +6,7 @@ import {
   GetTopTenCryptosRequestBody,
   GetTopTenCryptosResponseBody,
 } from '../../../../interfaces/dto/controller/get-top-ten-cryptos.dto';
+import { GetTopTenCryptosInput } from '../../../../interfaces/dto/service/get-top-ten-cryptos.dto';
 
 @Controller('crypto')
 @ApiTags('Crypto')
@@ -28,7 +29,11 @@ export class CryptoController {
   async getTopTenCryptos(
     @Query() query: GetTopTenCryptosRequestBody,
   ): Promise<GetTopTenCryptosResponseBody> {
-    const input = query.toGetTopTenCryptosInput();
+    const input: GetTopTenCryptosInput = query.toGetTopTenCryptosInput
+      ? query.toGetTopTenCryptosInput()
+      : {
+          currency: query.currency,
+        };
 
     const cryptos = await this.getTopTenCryptosUseCase.execute(input);
 

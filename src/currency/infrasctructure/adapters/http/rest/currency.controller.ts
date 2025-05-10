@@ -12,6 +12,7 @@ import {
   GetExchangeRateResponseBody,
 } from '../../../../interfaces/dto/controller/get-exchange-rate.dto';
 import { ConvertCurrencyInput } from '../../../../interfaces/dto/service/convert-currency.dto';
+import { GetExchangeRateInput } from '../../../../interfaces/dto/service/get-exchange-rate.dto';
 
 @Controller('currency')
 @ApiTags('Currency')
@@ -39,7 +40,12 @@ export class CurrencyController {
   async getRate(
     @Query() query: GetExchangeRateRequestBody,
   ): Promise<GetExchangeRateResponseBody> {
-    const input = query.toGetExchangeRateInput();
+    const input: GetExchangeRateInput = query.toGetExchangeRateInput
+      ? query.toGetExchangeRateInput()
+      : {
+          from: query.from,
+          to: query.to,
+        };
 
     const result = await this.getExchangeRateUseCase.execute(input);
 
