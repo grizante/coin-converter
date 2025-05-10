@@ -40,7 +40,7 @@ export class ConvertCurrencyRequestBody {
   }
 }
 
-export class ConvertCurrencyResponse {
+export class ConvertCurrencyResponseBody {
   @ApiProperty({
     type: Number,
     example: 100,
@@ -48,7 +48,9 @@ export class ConvertCurrencyResponse {
   })
   amount: number;
 
-  static fromConvertCurrencyUseCase(amount: number): ConvertCurrencyResponse {
+  static fromConvertCurrencyUseCase(
+    amount: number,
+  ): ConvertCurrencyResponseBody {
     return {
       amount,
     };

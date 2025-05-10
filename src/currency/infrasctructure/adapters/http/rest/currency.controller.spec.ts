@@ -4,7 +4,7 @@ import { ConvertCurrencyUseCase } from '../../../../application/use-cases/conver
 import { GetExchangeRateUseCase } from '../../../../application/use-cases/get-exchange-rate.usecase';
 import {
   ConvertCurrencyRequestBody,
-  ConvertCurrencyResponse,
+  ConvertCurrencyResponseBody,
 } from '../../../../interfaces/dto/controller/convert-currency.dto';
 import {
   GetExchangeRateRequestBody,
@@ -79,7 +79,7 @@ describe('CurrencyController', () => {
     query.to = 'EUR';
     query.amount = 100;
 
-    const expectedResponse = new ConvertCurrencyResponse();
+    const expectedResponse = new ConvertCurrencyResponseBody();
     expectedResponse.amount = mockConvertedAmount;
 
     const result = await controller.convertCurrency(query);

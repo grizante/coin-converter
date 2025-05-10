@@ -5,7 +5,7 @@ import { ConvertCurrencyUseCase } from '../../../../application/use-cases/conver
 import { GetExchangeRateUseCase } from '../../../../application/use-cases/get-exchange-rate.usecase';
 import {
   ConvertCurrencyRequestBody,
-  ConvertCurrencyResponse,
+  ConvertCurrencyResponseBody,
 } from '../../../../interfaces/dto/controller/convert-currency.dto';
 import {
   GetExchangeRateRequestBody,
@@ -61,7 +61,7 @@ export class CurrencyController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Convert currency',
-    type: GetExchangeRateResponseBody,
+    type: ConvertCurrencyResponseBody,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -69,7 +69,7 @@ export class CurrencyController {
   })
   async convertCurrency(
     @Query() query: ConvertCurrencyRequestBody,
-  ): Promise<ConvertCurrencyResponse> {
+  ): Promise<ConvertCurrencyResponseBody> {
     const input: ConvertCurrencyInput = query.toConvertCurrencyInput
       ? query.toConvertCurrencyInput()
       : {
@@ -80,6 +80,6 @@ export class CurrencyController {
 
     const result = await this.convertCurrencyUseCase.execute(input);
 
-    return ConvertCurrencyResponse.fromConvertCurrencyUseCase(result);
+    return ConvertCurrencyResponseBody.fromConvertCurrencyUseCase(result);
   }
 }
