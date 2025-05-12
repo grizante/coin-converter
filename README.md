@@ -207,7 +207,7 @@ You can configure your app via `.env`:
 
 ```env
 PORT=3000
-CURRENCYLAYER_API_KEY=your_key_here
+CURRENCYLAYER_API_KEY=your_key_here # change to redis if you're about to use it on docker 
 REDIS_HOST=localhost
 REDIS_PORT=6379
 ```
