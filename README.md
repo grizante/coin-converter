@@ -221,7 +221,9 @@ REDIS_PORT=6379
 - [ ] Retry logic for upstream providers.
 - [ ] CI/CD integration (e.g., GitHub Actions).
 - [ ] Persist historical exchange and conversion logs.
-
+- [ ] Error handling.
+- [ ] Document GRPC and Websocket endpoints.
+- [ ] Validate GRPC and Websocket bequest bodies.
 ---
 
 ## 🧾 License
