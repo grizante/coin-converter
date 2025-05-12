@@ -137,7 +137,7 @@ App runs on: [http://localhost:3000](http://localhost:3000)
 
 ### 🟣 gRPC Services
 
-- `CryptoService.StreamGetTopTenCryptos`
+- `CryptoService.StreamGetTopCryptos`
 - `CurrencyService.StreamRate`
 - `CurrencyService.StreamConvertCurrency`
 
