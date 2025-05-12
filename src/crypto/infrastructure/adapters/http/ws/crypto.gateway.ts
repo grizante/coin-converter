@@ -40,6 +40,7 @@ export class CryptoGateway {
             name: crypto.name,
             current_price: crypto.current_price,
             market_cap: crypto.market_cap,
+            market_cap_rank: crypto.market_cap_rank,
           })),
           last_updated: new Date().toISOString(),
         };
